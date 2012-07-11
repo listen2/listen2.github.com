@@ -142,9 +142,7 @@ flairs = {
 	"The Future Slayer":"xQoSx",
 	"Fray":"snthomson",
 	"Saga Vasuki":"GloryisBen",
-	"7-3-0":"echofayth",
-	"a demon":"ay",
-	"hst 17":"ay"};
+	"7-3-0":"echofayth"};
 
 
 
