@@ -148,6 +148,18 @@ flairs = {
 
 
 
+function get_color(d) {
+	thresh = 0.3
+	if (d > thresh) {
+		d = Math.floor((1 - (d - thresh)/(1 - thresh)) * 255);
+		return "ff" + ("00" + d.toString(16)).slice(-2) + ("00" + d.toString(16)).slice(-2);
+	} else if (d < thresh) {
+		d = Math.floor(d/thresh * 255);
+		return ("00" + d.toString(16)).slice(-2) + "ff" + ("00" + d.toString(16)).slice(-2);
+	} else {
+		return "ffffff";
+	}
+}
 
 
 
@@ -164,11 +176,10 @@ function go() {
 	s = "<table>";
 	for (x in r) {
 		if (r[x][1] !== 0) {
-			s += "<tr><td>" + r[x][1] + "</td><td>" + r[x][0] + "</td><td>" + r[x][2] + "</td></tr>";
+			s += "<tr style='background:#" + get_color(r[x][1]) + "'><td>" + r[x][1].toFixed(2) + "</td><td>" + r[x][0] + "</td><td>" + r[x][2] + "</td></tr>";
 		}
 	}
 	s += "</table>";
 	out.innerHTML = s;
-	//document.write(dice_coefficient("abc", "abd"));
 }
 
