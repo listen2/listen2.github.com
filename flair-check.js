@@ -46,7 +46,7 @@ function go() {
 	s = "<table>";
 	for (x in r) {
 		if (r[x][1] !== 0) {
-			s += "<tr style='background:#" + get_color(r[x][1]) + "'><td>" + r[x][1].toFixed(2) + "</td><td>" + r[x][0] + "</td><td>" + r[x][2] + "</td></tr>";
+			s += "<tr style='background:#" + get_color(r[x][1]) + "'><td>" + r[x][1].toFixed(2) + "</td><td>" + r[x][0] + "</td><td><a href='http://reddit.com/user/" + r[x][2] + "'>" + r[x][2] + "</a></td></tr>";
 		}
 	}
 	s += "</table>";
