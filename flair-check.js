@@ -39,15 +39,16 @@ function go() {
 	//r = [Array(a, dice_coefficient(a, newflair)) for each (a in flairs)];
 	r = Array();
 	for (x in flairs) {
-		r.push(Array(flairs[x], dice_coefficient(flairs[x], newflair), x));
+		d = dice_coefficient(flairs[x], newflair);
+		if (d !== 0) {
+			r.push(Array(flairs[x], d, x));
+		}
 	}
 	r.sort(function(a, b) { return a[1] < b[1] ? 1 : (a[1] > b[1] ? -1 : 0); });
 
 	s = "<table>";
 	for (x in r) {
-		if (r[x][1] !== 0) {
-			s += "<tr style='background:#" + get_color(r[x][1]) + "'><td>" + r[x][1].toFixed(2) + "</td><td>" + r[x][0] + "</td><td><a href='http://reddit.com/user/" + r[x][2] + "'>" + r[x][2] + "</a></td></tr>";
-		}
+		s += "<tr style='background:#" + get_color(r[x][1]) + "'><td>" + r[x][1].toFixed(2) + "</td><td>" + r[x][0] + "</td><td><a href='http://reddit.com/user/" + r[x][2] + "'>" + r[x][2] + "</a></td></tr>";
 	}
 	s += "</table>";
 	out.innerHTML = s;
