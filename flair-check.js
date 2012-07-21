@@ -20,8 +20,9 @@ function dice_coefficient(string1, string2) {
 	return (2.0 * intersection) / (length1 + length2);  
 }
 
+thresh = 0.3;
 function get_color(d) {
-	thresh = 0.3
+	var d;
 	if (d > thresh) {
 		d = Math.floor((1 - (d - thresh)/(1 - thresh)) * 255);
 		return "ff" + ("00" + d.toString(16)).slice(-2) + ("00" + d.toString(16)).slice(-2);
@@ -34,19 +35,19 @@ function get_color(d) {
 }
 
 function go() {
-	newflair = document.getElementById("newflair").value;
-	out = document.getElementById("out");
+	var newflair = document.getElementById("newflair").value;
+	var out = document.getElementById("out");
 	//r = [Array(a, dice_coefficient(a, newflair)) for each (a in flairs)];
-	r = Array();
-	for (x in flairs) {
-		d = dice_coefficient(flairs[x], newflair);
+	var r = Array();
+	for (var x in flairs) {
+		var d = dice_coefficient(flairs[x], newflair);
 		if (d !== 0) {
 			r.push(Array(flairs[x], d, x));
 		}
 	}
 	r.sort(function(a, b) { return a[1] < b[1] ? 1 : (a[1] > b[1] ? -1 : 0); });
 
-	s = "<table>";
+	var s = "<table>";
 	for (x in r) {
 		s += "<tr style='background:#" + get_color(r[x][1]) + "'><td>" + r[x][1].toFixed(2) + "</td><td>" + r[x][0] + "</td><td><a href='http://reddit.com/user/" + r[x][2] + "'>" + r[x][2] + "</a></td></tr>";
 	}
