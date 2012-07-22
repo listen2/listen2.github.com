@@ -78,15 +78,16 @@ function go() {
 	}
 	r.sort(function(a, b) { return a[1] < b[1] ? 1 : (a[1] > b[1] ? -1 : 0); });
 
-	var s = "<table><tr><td>similarity</td><td>flair text</td><td>user</td><td>last /r/buffy post</td></tr>";
+	var s = "<table><tr><td>similarity</td><td>flair text</td><td>user</td><td>last /r/buffy post</td><td>average post frequency</td></tr>";
 	for (x in r) {
-		s += "<tr style='background:#" + get_color(r[x][1], 0.3) + "'><td>" + (r[x][1]*100).toFixed(0) + " %</td><td>" + r[x][0] + "</td><td><a href='http://reddit.com/user/" + r[x][2] + "'>" + r[x][2] + "</a></td>";
+		scolor = get_color(r[x][1], 0.3)
+		s += "<tr style='background:#eee'><td style='background:#" + scolor + "'>" + (r[x][1]*100).toFixed(0) + " %</td><td style='background:#" + scolor + "'>" + r[x][0] + "</td><td><a href='http://reddit.com/user/" + r[x][2] + "'>" + r[x][2] + "</a></td>";
 		if (r[x][3] === 0) {
-			s += "<td style='background:#99f'>none found in the last 1000 comments";
+			s += "<td style='background:#99f'>none in last 1000 comments</td><td>";
 		} else if (r[x][3] === -1) {
-			s += "<td style='background:#99f'>error checking comments";
+			s += "<td style='background:#99f'>error checking comments</td><td>";
 		} else {
-	  		s += "<td style='background:#" + get_color(elapsed(r[x][4]) / 7776000, 0.6) + "'>" + nowago(r[x][4]) + " ago (" + r[x][3] + " over the last " + nowago(r[x][5]) + ")";
+	  		s += "<td style='background:#" + get_color(elapsed(r[x][4]) / 7776000, 0.6) + "'>" + nowago(r[x][4]) + " ago</td><td>once every " + timeago(elapsed(r[x][5])/r[x][3]) + " (over the last " + nowago(r[x][5]) + ")";
 		}
 		s += "</td></tr>";
 	}
