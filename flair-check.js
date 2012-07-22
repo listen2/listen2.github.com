@@ -96,7 +96,12 @@ function go() {
 	for (var x in flairs) {
 		var d = dice_coefficient(flairs[x]["text"], newflair);
 		if (show_all.checked || d !== 0) {
-			r.push({"text":flairs[x]["text"], "d":d, "user":x, "num_posts":flairs[x]["num_posts"], "last_post":flairs[x]["last_post"], "first_post":flairs[x]["first_post"], "freq":Math.floor(elapsed(flairs[x]["first_post"])/flairs[x]["num_posts"])});
+			if (flairs[x]["num_posts"] === -1) {
+				freq = Infinity;
+			} else {
+				freq = Math.floor(elapsed(flairs[x]["first_post"])/flairs[x]["num_posts"]);
+			}
+			r.push({"text":flairs[x]["text"], "d":d, "user":x, "num_posts":flairs[x]["num_posts"], "last_post":flairs[x]["last_post"], "first_post":flairs[x]["first_post"], "freq":freq});
 		}
 	}
 	sort_and_show();
