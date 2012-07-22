@@ -21,13 +21,10 @@ function dice_coefficient(string1, string2) {
 }
 
 function timeago(sec) {
-	//alert(sec);
 	n = Math.floor(sec / 31536000)
 	if (n) { return n + " year" + (n > 1 ? "s" : "") }
 	n = Math.floor(sec / 2592000)
 	if (n) { return n + " month" + (n > 1 ? "s" : "") }
-	/*n = Math.floor(sec / 604800)
-	if (n) { return n + " week" + (n > 1 ? "s" : "") }*/
 	n = Math.floor(sec / 86400)
 	if (n) { return n + " day" + (n > 1 ? "s" : "") }
 	n = Math.floor(sec / 3600)
