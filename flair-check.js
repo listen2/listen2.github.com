@@ -64,18 +64,18 @@ function sort_and_show(sort_col) {
 
 	sort_col = sort_col || 1
 	//r.sort(function(a, b) { return a[1] < b[1] ? 1 : (a[1] > b[1] ? -1 : 0); });
-	r.sort(function(a, b) { return a[sort_col] < b[sort_col] ? 1 : (a[sort_col] > b[sort_col] ? -1 : 0); });
+	r.sort(function(a, b) { return a.d < b.d ? 1 : (a.d > b.d ? -1 : 0); });
 
 	var s = "<table><tr><td>similarity</td><td>flair text</td><td>user</td><td>last /r/buffy post</td><td>average post frequency</td></tr>";
 	for (x in r) {
-		scolor = get_color(r[x][1], 0.3)
-		s += "<tr style='background:#eee'><td style='background:#" + scolor + "'>" + (r[x][1]*100).toFixed(0) + " %</td><td style='background:#" + scolor + "'>" + r[x][0] + "</td><td><a href='http://reddit.com/user/" + r[x][2] + "'>" + r[x][2] + "</a></td>";
-		if (r[x][3] === 0) {
+		scolor = get_color(r[x].d, 0.3)
+		s += "<tr style='background:#eee'><td style='background:#" + scolor + "'>" + (r[x].d*100).toFixed(0) + " %</td><td style='background:#" + scolor + "'>" + r[x].text + "</td><td><a href='http://reddit.com/user/" + r[x].user + "'>" + r[x].user + "</a></td>";
+		if (r[x].num_comments === 0) {
 			s += "<td style='background:#99f'>none in last 1000 comments</td><td>";
-		} else if (r[x][3] === -1) {
+		} else if (r[x].num_comments === -1) {
 			s += "<td style='background:#99f'>error checking comments</td><td>";
 		} else {
-	  		s += "<td style='background:#" + get_color(elapsed(r[x][4]) / 7776000, 0.6) + "'>" + nowago(r[x][4]) + " ago</td><td>once every " + timeago(elapsed(r[x][5])/r[x][3]) + " (over the last " + nowago(r[x][5]) + ")";
+	  		s += "<td style='background:#" + get_color(elapsed(r[x].last_post) / 7776000, 0.6) + "'>" + nowago(r[x].last_post) + " ago</td><td>once every " + timeago(elapsed(r[x].first_post)/r[x].num_posts) + " (over the last " + nowago(r[x].first_post) + ")";
 		}
 		s += "</td></tr>";
 	}
@@ -96,7 +96,7 @@ function go() {
 	for (var x in flairs) {
 		var d = dice_coefficient(flairs[x]["text"], newflair);
 		if (show_all.checked || d !== 0) {
-			r.push(Array(flairs[x]["text"], d, x, flairs[x]["num_posts"], flairs[x]["last_post"], flairs[x]["first_post"]));
+			r.push({"text":flairs[x]["text"], "d":d, "user":x, "num_posts":flairs[x]["num_posts"], "last_post":flairs[x]["last_post"], "first_post":flairs[x]["first_post"]});
 		}
 	}
 	sort_and_show();
