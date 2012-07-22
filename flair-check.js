@@ -81,9 +81,9 @@ function go() {
 	for (x in r) {
 		s += "<tr style='background:#" + get_color(r[x][1], 0.3) + "'><td>" + (r[x][1]*100).toFixed(0) + " %</td><td>" + r[x][0] + "</td><td><a href='http://reddit.com/user/" + r[x][2] + "'>" + r[x][2] + "</a></td>";
 		if (r[x][3] === 0) {
-			s += "<td style='background:#fff'>none found in the last 1000 comments";
+			s += "<td style='background:#99f'>none found in the last 1000 comments";
 		} else if (r[x][3] === -1) {
-			s += "<td style='background:#fff'>error checking comments";
+			s += "<td style='background:#99f'>error checking comments";
 		} else {
 	  		s += "<td style='background:#" + get_color(elapsed(r[x][4]) / 7776000, 0.6) + "'>" + nowago(r[x][4]) + " ago (" + r[x][3] + " over the last " + nowago(r[x][5]) + ")";
 		}
