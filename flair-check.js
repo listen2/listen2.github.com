@@ -59,24 +59,12 @@ function get_color(d, thresh) {
 	}
 }
 
-function go() {
-	var newflair = document.getElementById("newflair").value;
+function sort_and_show(sort_col) {
 	var out = document.getElementById("out");
-	var show_all = document.getElementById("show_all");
 
-	var len_div = document.getElementById("len_span");
-	len_span.innerHTML = newflair.length + "/42 characters";
-	len_span.style.background = "#"+get_color(newflair.length/42, 0.6)
-
-	//r = [Array(a, dice_coefficient(a, newflair)) for each (a in flairs)];
-	var r = Array();
-	for (var x in flairs) {
-		var d = dice_coefficient(flairs[x]["text"], newflair);
-		if (show_all.checked || d !== 0) {
-			r.push(Array(flairs[x]["text"], d, x, flairs[x]["num_posts"], flairs[x]["last_post"], flairs[x]["first_post"]));
-		}
-	}
-	r.sort(function(a, b) { return a[1] < b[1] ? 1 : (a[1] > b[1] ? -1 : 0); });
+	sort_col = sort_col || 1
+	//r.sort(function(a, b) { return a[1] < b[1] ? 1 : (a[1] > b[1] ? -1 : 0); });
+	r.sort(function(a, b) { return a[sort_col] < b[sort_col] ? 1 : (a[sort_col] > b[sort_col] ? -1 : 0); });
 
 	var s = "<table><tr><td>similarity</td><td>flair text</td><td>user</td><td>last /r/buffy post</td><td>average post frequency</td></tr>";
 	for (x in r) {
@@ -93,5 +81,24 @@ function go() {
 	}
 	s += "</table>";
 	out.innerHTML = s;
+}
+
+function go() {
+	var newflair = document.getElementById("newflair").value;
+	var show_all = document.getElementById("show_all");
+
+	var len_div = document.getElementById("len_span");
+	len_span.innerHTML = newflair.length + "/42 characters";
+	len_span.style.background = "#"+get_color(newflair.length/42, 0.6)
+
+	//r = [Array(a, dice_coefficient(a, newflair)) for each (a in flairs)];
+	r = Array();
+	for (var x in flairs) {
+		var d = dice_coefficient(flairs[x]["text"], newflair);
+		if (show_all.checked || d !== 0) {
+			r.push(Array(flairs[x]["text"], d, x, flairs[x]["num_posts"], flairs[x]["last_post"], flairs[x]["first_post"]));
+		}
+	}
+	sort_and_show();
 }
 
