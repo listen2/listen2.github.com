@@ -62,6 +62,7 @@ function get_color(d, thresh) {
 function go() {
 	var newflair = document.getElementById("newflair").value;
 	var out = document.getElementById("out");
+	var show_all = document.getElementById("show_all");
 
 	var len_div = document.getElementById("len_span");
 	len_span.innerHTML = newflair.length + "/42 characters";
@@ -71,7 +72,7 @@ function go() {
 	var r = Array();
 	for (var x in flairs) {
 		var d = dice_coefficient(flairs[x]["text"], newflair);
-		if (d !== 0) {
+		if (show_all.checked || d !== 0) {
 			r.push(Array(flairs[x]["text"], d, x, flairs[x]["num_posts"], flairs[x]["last_post"], flairs[x]["first_post"]));
 		}
 	}
