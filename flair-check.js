@@ -76,7 +76,7 @@ function sort_and_show(sfunc) {
 		} else if (r[x].num_posts === -1) {
 			s += "<td style='background:#99f'>error checking comments</td><td>";
 		} else {
-	  		s += "<td style='background:#" + get_color(elapsed(r[x].last_post) / 7776000, 0.6) + "'>" + nowago(r[x].last_post) + " ago</td><td>once every " + timeago(r[x].freq) /*+ " (over the last " + nowago(r[x].first_post) + ")"*/;
+	  		s += "<td style='background:#" + get_color(elapsed(r[x].last_post) / 7776000, 0.6) + "'>" + nowago(r[x].last_post) + " ago</td><td style='background:#" + get_color(r[x].freq / 5184000, 0.5) + "'>once every " + timeago(r[x].freq) /*+ " (over the last " + nowago(r[x].first_post) + ")"*/;
 		}
 		s += "</td></tr>";
 	}
