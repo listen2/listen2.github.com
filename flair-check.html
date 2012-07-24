@@ -1,7 +1,15 @@
-<script src="flair-check.js"></script>
-<script src="http://listen2.t28.net:8000/flairs.js"></script>
-<input type="text" id="newflair"
-onkeyup="javascript:if(event.keyCode==13){go();document.getElementById('newflair').blur()}"
-><input type="button" onclick="go()" value="check"><input type="checkbox" id="show_all"><label for="show_all">show all</label><span id="len_span" style="margin-left:10px; padding: 2px;"></span>
-<br><br>
-<div id="out"></div>
+<html>
+	<head>
+		<script src="flair-check.js"></script>
+		<script src="http://listen2.t28.net:8000/flairs.js"></script>
+	</head>
+	<body onload="onload()">
+		<select id="rname"></select>
+		<input type="text" id="newflair" onkeyup="javascript:if(event.keyCode==13){go();document.getElementById('newflair').blur()}">
+		<input type="button" onclick="go()" value="check">
+		<input type="checkbox" id="show_all"><label for="show_all">include 0% matches</label>
+		<span id="len_span" style="margin-left:10px; padding: 2px;"></span>
+		<br><br>
+		<div id="out"></div>
+	</body>
+</html>

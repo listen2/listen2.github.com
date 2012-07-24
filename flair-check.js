@@ -86,24 +86,33 @@ function sort_and_show(sfunc) {
 function go() {
 	var newflair = document.getElementById("newflair").value;
 	var show_all = document.getElementById("show_all");
+	var rname = document.getElementById("rname").value;
 
 	var len_div = document.getElementById("len_span");
 	len_span.innerHTML = newflair.length + "/42 characters";
 	len_span.style.background = "#"+get_color(newflair.length/42, 0.6)
 
-	//r = [Array(a, dice_coefficient(a, newflair)) for each (a in flairs)];
-	r = Array();
-	for (var x in flairs) {
-		var d = dice_coefficient(flairs[x]["text"], newflair);
+	//r = [Array(a, dice_coefficient(a, newflair)) for each (a in flairs[rname])];
+	r = Array();	//global
+	for (var x in flairs[rname]) {
+		var d = dice_coefficient(flairs[rname][x]["text"], newflair);
 		if (show_all.checked || d !== 0) {
-			if (flairs[x]["num_posts"] === -1) {
+			if (flairs[rname][x]["num_posts"] === -1) {
 				freq = Infinity;
 			} else {
-				freq = Math.floor(elapsed(flairs[x]["first_post"])/flairs[x]["num_posts"]);
+				freq = Math.floor(elapsed(flairs[rname][x]["first_post"])/flairs[rname][x]["num_posts"]);
 			}
-			r.push({"text":flairs[x]["text"], "d":d, "user":x, "num_posts":flairs[x]["num_posts"], "last_post":flairs[x]["last_post"], "first_post":flairs[x]["first_post"], "freq":freq});
+			r.push({"text":flairs[rname][x]["text"], "d":d, "user":x, "num_posts":flairs[rname][x]["num_posts"], "last_post":flairs[rname][x]["last_post"], "first_post":flairs[rname][x]["first_post"], "freq":freq});
 		}
 	}
 	sort_and_show();
 }
 
+function onload() {
+	var select = document.getElementById("rname");
+	for (var r in flairs) {
+		opt = document.createElement("option");
+		opt.text = r;
+		select.add(opt, null);
+	}
+}
