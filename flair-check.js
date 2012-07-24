@@ -64,7 +64,7 @@ function sort_and_show(sfunc) {
 	sfunc = typeof sfunc !== "undefined" ? sfunc : sort_sim;
 	r.sort(sfunc);
 
-	var s = "<table><tr><td onclick='sort_and_show(sort_sim)'>similarity</td><td>flair text</td><td>user</td><td>last /r/buffy post</td><td onclick='sort_and_show(sort_freq_r)'>/r/buffy post frequency</td></tr>";
+	var s = "<table><tr><td onclick='sort_and_show(sort_sim)'>similarity</td><td>flair text</td><td>user</td><td>last /r/"+rname+" post</td><td onclick='sort_and_show(sort_freq_r)'>/r/"+rname+" post frequency</td></tr>";
 	for (x in r) {
 		scolor = get_color(r[x].d, 0.3)
 		s += "<tr style='background:#eee'><td style='background:#" + scolor + "'>" + (r[x].d*100).toFixed(0) + " %</td><td style='background:#" + scolor + "'>" + r[x].text + "</td><td><a href='http://reddit.com/user/" + r[x].user + "'>" + r[x].user + "</a></td>";
@@ -86,7 +86,7 @@ function sort_and_show(sfunc) {
 function go() {
 	var newflair = document.getElementById("newflair").value;
 	var show_all = document.getElementById("show_all");
-	var rname = document.getElementById("rname").value;
+	rname = document.getElementById("rname").value;
 
 	var len_div = document.getElementById("len_span");
 	len_span.innerHTML = newflair.length + "/42 characters";
