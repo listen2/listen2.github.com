@@ -59,12 +59,14 @@ function get_color(d, thresh) {
 function sort_sim(a, b) { return a.d < b.d ? 1 : (a.d > b.d ? -1 : 0); }
 function sort_freq(a, b) { return a.freq < b.freq ? 1 : (a.freq > b.freq ? -1 : 0); }
 function sort_freq_r(a, b) { return b.freq < a.freq ? 1 : (b.freq > a.freq ? -1 : 0); }
+function sort_recent(a, b) { return a.last_post < b.last_post ? 1 : (a.last_post > b.last_post ? -1 : 0); }
+function sort_recent_r(a, b) { return b.last_post < a.last_post ? 1 : (b.last_post > a.last_post ? -1 : 0); }
 
 function sort_and_show(sfunc) {
 	sfunc = typeof sfunc !== "undefined" ? sfunc : sort_sim;
 	r.sort(sfunc);
 
-	var s = "<table><tr><td onclick='sort_and_show(sort_sim)'>similarity</td><td>flair text</td><td>user</td><td>last /r/"+rname+" post</td><td onclick='sort_and_show(sort_freq_r)'>/r/"+rname+" post frequency</td></tr>";
+	var s = "<table><tr><td onclick='sort_and_show(sort_sim)'>similarity</td><td>flair text</td><td>user</td><td onclick='sort_and_show(sort_recent)'>last /r/"+rname+" post</td><td onclick='sort_and_show(sort_freq_r)'>/r/"+rname+" post frequency</td></tr>";
 	for (x in r) {
 		scolor = get_color(r[x].d, 0.3)
 		s += "<tr style='background:#eee'><td style='background:#" + scolor + "'>" + (r[x].d*100).toFixed(0) + " %</td><td style='background:#" + scolor + "'>" + r[x].text + "</td><td><a href='http://reddit.com/user/" + r[x].user + "'>" + r[x].user + "</a></td>";
