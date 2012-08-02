@@ -115,6 +115,9 @@ function onload() {
 	for (var r in flairs) {
 		opt = document.createElement("option");
 		opt.text = r;
+		if (r === "buffy") {
+			opt.selected = true;
+		}
 		select.add(opt, null);
 	}
 }
