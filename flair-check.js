@@ -101,6 +101,7 @@ function go() {
 		if (show_all.checked || d !== 0) {
 			if (flairs[rname][x]["num_posts"] === -1) {
 				freq = Infinity;
+				flairs[rname][x]["last_post"] = 0;
 			} else {
 				freq = Math.floor(elapsed(flairs[rname][x]["first_post"])/flairs[rname][x]["num_posts"]);
 			}
