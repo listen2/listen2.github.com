@@ -71,7 +71,7 @@ function sort_and_show(sfunc) {
 		scolor = get_color(r[x].d, 0.3)
 		s += "<tr style='background:#eee'><td style='background:#" + scolor + "'>" + (r[x].d*100).toFixed(0) + " %</td><td style='background:#" + scolor + "'>" + r[x].text + "</td><td><a href='http://reddit.com/user/" + r[x].user + "'>" + r[x].user + "</a></td>";
 		if (r[x].num_posts === 0) {
-			s += "<td style='background:#99f'>none in last 1000 comments</td><td style='background:#99f'>";
+			s += "<td style='background:#99f'>none in last 100 comments</td><td style='background:#99f'>";
 		} else if (r[x].num_posts === -1) {
 			s += "<td style='background:#99f'>error checking comments</td><td style='background:#99f'>";
 		} else {
