@@ -113,10 +113,21 @@ function go() {
 
 function onload() {
 	var select = document.getElementById("rname");
+
+	var max_num = 0, max_r;
 	for (var r in flairs) {
+		var count = Object.keys(flairs[r]).length;
+		if (count > max_num) {
+			max_num = count;
+			max_r = r;
+		}
+	}
+
+	var keys = Object.keys(flairs);
+	for (var r in keys.sort()) {
 		opt = document.createElement("option");
-		opt.text = r;
-		if (r === "buffy") {
+		opt.text = keys[r];
+		if (keys[r] === max_r) {
 			opt.selected = true;
 		}
 		select.add(opt, null);
