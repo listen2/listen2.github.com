@@ -134,5 +134,6 @@ function onload() {
 	}
 
 	var agespan = document.getElementById("age_span");
-	agespan.innerHTML = flairtime;
+	secs = (new Date()).getTime()/1000 - flairtime
+	agespan.innerHTML = timeago(secs);
 }
