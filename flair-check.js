@@ -132,4 +132,7 @@ function onload() {
 		}
 		select.add(opt, null);
 	}
+
+	var agespan = document.getElementById("age_span");
+	agespan.innerHTML = flairtime;
 }
