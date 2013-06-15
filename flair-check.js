@@ -61,12 +61,21 @@ function sort_freq(a, b) { if (a.num_posts === 0 && b.num_posts > 0) { return -1
 function sort_freq_r(a, b) { if (a.num_posts === 0 && b.num_posts > 0) { return 1 } else if (a.num_posts > 0 && b.num_posts === 0) { return -1 } return b.freq < a.freq ? 1 : (b.freq > a.freq ? -1 : 0); }
 function sort_recent(a, b) { if (a.num_posts === 0 && b.num_posts > 0) { return 1 } else if (a.num_posts > 0 && b.num_posts === 0) { return -1 } return a.last_post < b.last_post ? 1 : (a.last_post > b.last_post ? -1 : 0); }
 function sort_recent_r(a, b) { if (a.num_posts === 0 && b.num_posts > 0) { return -1 } else if (a.num_posts > 0 && b.num_posts === 0) { return 1 } return b.last_post < a.last_post ? 1 : (b.last_post > a.last_post ? -1 : 0); }
+function sort_text(a, b) { return a.text.toLowerCase() < b.text.toLowerCase() ? 0 : (a.text.toLowerCase() > b.text.toLowerCase() ? 1 : 0); }
+function sort_user(a, b) { return a.user.toLowerCase() < b.user.toLowerCase() ? 0 : (a.user.toLowerCase() > b.user.toLowerCase() ? 1 : 0); }
 
-function sort_and_show(sfunc) {
-	sfunc = typeof sfunc !== "undefined" ? sfunc : sort_sim;
-	r.sort(sfunc);
+function sort_and_show(f) {
+	f = typeof f !== "undefined" ? f : "sim";
+	r.sort(fields[f].func);
+	//▴▾
 
-	var s = "<table><tr><td onclick='sort_and_show(sort_sim)'>similarity</td><td>flair text</td><td>user</td><td onclick='sort_and_show(sort_recent)'>last /r/"+rname+" post</td><td onclick='sort_and_show(sort_freq_r)'>/r/"+rname+" post frequency</td></tr>";
+	var s = "<table><tr>";
+	for (k in fields) {
+		s += "<td onclick='sort_and_show(\"" + k + "\")'>" + fields[k].t;
+		if (k === f) { s += "&nbsp;&#x25BE;&nbsp;"; }	//▾
+		s += "</td>";
+	}
+	s += "</tr>";
 	for (x in r) {
 		scolor = get_color(r[x].d, 0.3)
 		s += "<tr style='background:#eee'><td style='background:#" + scolor + "'>" + (r[x].d*100).toFixed(0) + " %</td><td style='background:#" + scolor + "'>" + r[x].text + "</td><td><a href='http://reddit.com/user/" + r[x].user + "'>" + r[x].user + "</a></td>";
@@ -114,7 +123,7 @@ function go() {
 }
 
 function onload() {
-	var select = document.getElementById("rname");
+	var rname = document.getElementById("rname");
 
 	var max_num = 0, max_r;
 	for (var r in flairs) {
@@ -132,10 +141,17 @@ function onload() {
 		if (keys[r] === max_r) {
 			opt.selected = true;
 		}
-		select.add(opt, null);
+		rname.add(opt, null);
 	}
 
 	var agespan = document.getElementById("age_span");
 	secs = (new Date()).getTime()/1000 - flairtime
 	agespan.innerHTML = "Data updated " + timeago(secs) + " ago";
+
+	rname = document.getElementById("rname").value;
+	fields = {"sim":{"func":sort_sim, "t":"similarity"},
+		"text":{"func":sort_text, "t":"flair text"},
+		"user":{"func":sort_user, "t":"user"},
+		"recent":{"func":sort_recent, "t":"last /r/"+rname+" post"},
+		"freq":{"func":sort_freq_r, "t":"/r/"+rname+" post frequency"}}
 }
