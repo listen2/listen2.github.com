@@ -57,10 +57,10 @@ function get_color(d, thresh) {
 }
 
 function sort_sim(a, b) { return a.d < b.d ? 1 : (a.d > b.d ? -1 : 0); }
-function sort_freq(a, b) { return a.freq < b.freq ? 1 : (a.freq > b.freq ? -1 : 0); }
-function sort_freq_r(a, b) { return b.freq < a.freq ? 1 : (b.freq > a.freq ? -1 : 0); }
-function sort_recent(a, b) { return a.last_post < b.last_post ? 1 : (a.last_post > b.last_post ? -1 : 0); }
-function sort_recent_r(a, b) { return b.last_post < a.last_post ? 1 : (b.last_post > a.last_post ? -1 : 0); }
+function sort_freq(a, b) { if (a.num_posts === 0 && b.num_posts > 0) { return -1 } else if (a.num_posts > 0 && b.num_posts === 0) { return 1 }  return a.freq < b.freq ? 1 : (a.freq > b.freq ? -1 : 0); }
+function sort_freq_r(a, b) { if (a.num_posts === 0 && b.num_posts > 0) { return 1 } else if (a.num_posts > 0 && b.num_posts === 0) { return -1 } return b.freq < a.freq ? 1 : (b.freq > a.freq ? -1 : 0); }
+function sort_recent(a, b) { if (a.num_posts === 0 && b.num_posts > 0) { return 1 } else if (a.num_posts > 0 && b.num_posts === 0) { return -1 } return a.last_post < b.last_post ? 1 : (a.last_post > b.last_post ? -1 : 0); }
+function sort_recent_r(a, b) { if (a.num_posts === 0 && b.num_posts > 0) { return -1 } else if (a.num_posts > 0 && b.num_posts === 0) { return 1 } return b.last_post < a.last_post ? 1 : (b.last_post > a.last_post ? -1 : 0); }
 
 function sort_and_show(sfunc) {
 	sfunc = typeof sfunc !== "undefined" ? sfunc : sort_sim;
@@ -71,9 +71,9 @@ function sort_and_show(sfunc) {
 		scolor = get_color(r[x].d, 0.3)
 		s += "<tr style='background:#eee'><td style='background:#" + scolor + "'>" + (r[x].d*100).toFixed(0) + " %</td><td style='background:#" + scolor + "'>" + r[x].text + "</td><td><a href='http://reddit.com/user/" + r[x].user + "'>" + r[x].user + "</a></td>";
 		if (r[x].num_posts === 0) {
-			s += "<td style='background:#99f'>none in last 100 comments</td><td style='background:#99f'>";
+	  		s += "<td style='background:#99f'>none in last 100 comments</td><td style='background:#99f'>less than once per " + timeago(r[x].freq);
 		} else if (r[x].num_posts === -1) {
-			s += "<td style='background:#99f'>error checking comments</td><td style='background:#99f'>";
+			s += "<td style='background:#ee0'>account deactivated</td><td style='background:#ee0'>";
 		} else {
 	  		s += "<td style='background:#" + get_color(elapsed(r[x].last_post) / 7776000, 0.6) + "'>" + nowago(r[x].last_post) + " ago</td><td style='background:#" + get_color(r[x].freq / 5184000, 0.5) + "'>once every " + timeago(r[x].freq) /*+ " (over the last " + nowago(r[x].first_post) + ")"*/;
 		}
@@ -102,6 +102,8 @@ function go() {
 			if (flairs[rname][x]["num_posts"] === -1) {
 				freq = Infinity;
 				flairs[rname][x]["last_post"] = 0;
+			} else if (flairs[rname][x]["num_posts"] === 0) {
+				freq = Math.floor(elapsed(flairs[rname][x]["first_post"]));
 			} else {
 				freq = Math.floor(elapsed(flairs[rname][x]["first_post"])/flairs[rname][x]["num_posts"]);
 			}
