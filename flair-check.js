@@ -57,22 +57,25 @@ function get_color(d, thresh) {
 }
 
 function sort_sim(a, b) { return a.d < b.d ? 1 : (a.d > b.d ? -1 : 0); }
-function sort_freq(a, b) { if (a.num_posts === 0 && b.num_posts > 0) { return -1 } else if (a.num_posts > 0 && b.num_posts === 0) { return 1 }  return a.freq < b.freq ? 1 : (a.freq > b.freq ? -1 : 0); }
-function sort_freq_r(a, b) { if (a.num_posts === 0 && b.num_posts > 0) { return 1 } else if (a.num_posts > 0 && b.num_posts === 0) { return -1 } return b.freq < a.freq ? 1 : (b.freq > a.freq ? -1 : 0); }
+function sort_sim_r(a, b) { return a.d < b.d ? 0 : (a.d > b.d ? 1 : 0); }
+function sort_freq(a, b) { if (a.num_posts === 0 && b.num_posts > 0) { return 1 } else if (a.num_posts > 0 && b.num_posts === 0) { return -1 } return b.freq < a.freq ? 1 : (b.freq > a.freq ? -1 : 0); }
+function sort_freq_r(a, b) { if (a.num_posts === 0 && b.num_posts > 0) { return -1 } else if (a.num_posts > 0 && b.num_posts === 0) { return 1 }  return a.freq < b.freq ? 1 : (a.freq > b.freq ? -1 : 0); }
 function sort_recent(a, b) { if (a.num_posts === 0 && b.num_posts > 0) { return 1 } else if (a.num_posts > 0 && b.num_posts === 0) { return -1 } return a.last_post < b.last_post ? 1 : (a.last_post > b.last_post ? -1 : 0); }
 function sort_recent_r(a, b) { if (a.num_posts === 0 && b.num_posts > 0) { return -1 } else if (a.num_posts > 0 && b.num_posts === 0) { return 1 } return b.last_post < a.last_post ? 1 : (b.last_post > a.last_post ? -1 : 0); }
 function sort_text(a, b) { return a.text.toLowerCase() < b.text.toLowerCase() ? 0 : (a.text.toLowerCase() > b.text.toLowerCase() ? 1 : 0); }
+function sort_text_r(a, b) { return a.text.toLowerCase() < b.text.toLowerCase() ? 1 : (a.text.toLowerCase() > b.text.toLowerCase() ? 0 : 0); }
 function sort_user(a, b) { return a.user.toLowerCase() < b.user.toLowerCase() ? 0 : (a.user.toLowerCase() > b.user.toLowerCase() ? 1 : 0); }
+function sort_user_r(a, b) { return a.user.toLowerCase() < b.user.toLowerCase() ? 1 : (a.user.toLowerCase() > b.user.toLowerCase() ? 0 : 0); }
 
-function sort_and_show(f) {
+function sort_and_show(f, d) {
 	f = typeof f !== "undefined" ? f : "sim";
-	r.sort(fields[f].func);
-	//▴▾
+	d = typeof d !== "undefined" ? d : true;
+	r.sort(d ? fields[f].func : fields[f].func_r);
 
 	var s = "<table><tr>";
 	for (k in fields) {
-		s += "<td onclick='sort_and_show(\"" + k + "\")'>" + fields[k].t;
-		if (k === f) { s += "&nbsp;&#x25BE;&nbsp;"; }	//▾
+		s += "<td onclick='sort_and_show(\"" + k + "\", " + (k === f ? !d : true) + ")'>" + fields[k].t;
+		if (k === f) { s += "&nbsp;&#x" + (d ? "25BE" : "25B4") + ";&nbsp;"; }	//▴▾
 		s += "</td>";
 	}
 	s += "</tr>";
@@ -149,9 +152,9 @@ function onload() {
 	agespan.innerHTML = "Data updated " + timeago(secs) + " ago";
 
 	rname = document.getElementById("rname").value;
-	fields = {"sim":{"func":sort_sim, "t":"similarity"},
-		"text":{"func":sort_text, "t":"flair text"},
-		"user":{"func":sort_user, "t":"user"},
-		"recent":{"func":sort_recent, "t":"last /r/"+rname+" post"},
-		"freq":{"func":sort_freq_r, "t":"/r/"+rname+" post frequency"}}
+	fields = {"sim":{"func":sort_sim, "func_r":sort_sim_r, "t":"similarity"},
+		"text":{"func":sort_text, "func_r":sort_text_r, "t":"flair text"},
+		"user":{"func":sort_user, "func_r":sort_user_r, "t":"user"},
+		"recent":{"func":sort_recent, "func_r":sort_recent_r, "t":"last /r/"+rname+" post"},
+		"freq":{"func":sort_freq, "func_r":sort_freq_r, "t":"/r/"+rname+" post frequency"}}
 }
