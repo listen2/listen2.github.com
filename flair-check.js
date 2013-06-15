@@ -72,9 +72,11 @@ function sort_and_show(f, d) {
 	d = typeof d !== "undefined" ? d : true;
 	r.sort(d ? fields[f].func : fields[f].func_r);
 
+	rname = document.getElementById("rname").value;
+
 	var s = "<table><tr>";
 	for (k in fields) {
-		s += "<td onclick='sort_and_show(\"" + k + "\", " + (k === f ? !d : true) + ")'>" + fields[k].t;
+		s += "<td onclick='sort_and_show(\"" + k + "\", " + (k === f ? !d : true) + ")'>" + fields[k].t.replace("$rname", rname);
 		if (k === f) { s += "&nbsp;&#x" + (d ? "25BE" : "25B4") + ";&nbsp;"; }	//▴▾
 		s += "</td>";
 	}
@@ -155,6 +157,6 @@ function onload() {
 	fields = {"sim":{"func":sort_sim, "func_r":sort_sim_r, "t":"similarity"},
 		"text":{"func":sort_text, "func_r":sort_text_r, "t":"flair text"},
 		"user":{"func":sort_user, "func_r":sort_user_r, "t":"user"},
-		"recent":{"func":sort_recent, "func_r":sort_recent_r, "t":"last /r/"+rname+" post"},
-		"freq":{"func":sort_freq, "func_r":sort_freq_r, "t":"/r/"+rname+" post frequency"}}
+		"recent":{"func":sort_recent, "func_r":sort_recent_r, "t":"last /r/$rname post"},
+		"freq":{"func":sort_freq, "func_r":sort_freq_r, "t":"/r/$rname post frequency"}}
 }
