@@ -79,7 +79,10 @@ function sort_and_show(f, d) {
 	s += "</tr>";
 	for (x in r) {
 		scolor = get_color(r[x].d, 0.3)
-		s += "<tr style='background:#eee'><td style='background:#" + scolor + "'>" + (r[x].d*100).toFixed(0) + " %</td><td style='background:#" + scolor + "'>" + r[x].text + "</td><td><a href='http://reddit.com/user/" + r[x].user + "'>" + r[x].user + "</a></td>";
+		s += "<tr style='background:#eee'><td style='background:#" + scolor + "'>" + (r[x].d*100).toFixed(0) + " %</td>";
+		s += "<td style='background:#" + scolor + "'>" + r[x].text + "</td>";
+		s += "<td><a href='http://reddit.com/user/" + r[x].user + "'>" + r[x].user + "</a></td>";
+		s += "<td><a href='http://reddit.com/r/"+rname+"/about/flair/?name="+r[x].user+"'>[edit]</a></td>";
 		if (r[x].num_posts === 0) {
 	  		s += "<td style='background:#99f'>none in last 100 comments</td><td style='background:#99f'>less than once per " + timeago(r[x].freq);
 		} else if (r[x].num_posts === -1) {
@@ -152,6 +155,7 @@ function onload() {
 	fields = {"sim":{"func":sort_sim, "t":"similarity"},
 		"text":{"func":sort_text, "t":"flair text"},
 		"user":{"func":sort_user, "t":"user"},
+		"edit":{"func":null, "t":"edit"},
 		"recent":{"func":sort_recent, "t":"last /r/$rname post"},
 		"freq":{"func":sort_freq, "t":"/r/$rname post frequency"}}
 }
