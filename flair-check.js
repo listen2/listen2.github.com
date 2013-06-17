@@ -137,7 +137,7 @@ function onload() {
 	var rname = document.getElementById("rname");
 
 	var max_num = 0, max_r;
-	if ("rname" in get_vars) {
+	if (!("rname" in get_vars)) {
 		for (var r in flairs) {
 			var count = Object.keys(flairs[r]).length;
 			if (count > max_num) {
