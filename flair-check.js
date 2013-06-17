@@ -98,7 +98,7 @@ function sort_and_show(f, d) {
 	out.innerHTML = s;
 }
 
-function go() {
+function go(field, descending) {
 	var newflair = document.getElementById("newflair").value;
 	var show_all = document.getElementById("show_all");
 	rname = document.getElementById("rname").value;
@@ -123,18 +123,27 @@ function go() {
 			r.push({"text":flairs[rname][x]["text"], "d":d, "user":x, "num_posts":flairs[rname][x]["num_posts"], "last_post":flairs[rname][x]["last_post"], "first_post":flairs[rname][x]["first_post"], "freq":freq});
 		}
 	}
-	sort_and_show();
+	sort_and_show(field, descending);
 }
 
 function onload() {
+	var get_vars = {};
+	v = window.location.href.slice(window.location.href.indexOf("?") + 1).split("&");
+	for (x in v) {
+		y = v[x].split("=");
+		get_vars[y[0]] = y[1];
+	}
+
 	var rname = document.getElementById("rname");
 
 	var max_num = 0, max_r;
-	for (var r in flairs) {
-		var count = Object.keys(flairs[r]).length;
-		if (count > max_num) {
-			max_num = count;
-			max_r = r;
+	if ("rname" in get_vars) {
+		for (var r in flairs) {
+			var count = Object.keys(flairs[r]).length;
+			if (count > max_num) {
+				max_num = count;
+				max_r = r;
+			}
 		}
 	}
 
@@ -142,8 +151,10 @@ function onload() {
 	for (var r in keys.sort()) {
 		opt = document.createElement("option");
 		opt.text = keys[r];
-		if (keys[r] === max_r) {
-			opt.selected = true;
+		if ("rname" in get_vars) {
+			if (keys[r] === get_vars.rname) { opt.selected = true; }
+		} else {
+			if (keys[r] === max_r) { opt.selected = true; }
 		}
 		rname.add(opt, null);
 	}
@@ -158,4 +169,12 @@ function onload() {
 		"edit":{"func":null, "t":"edit"},
 		"recent":{"func":sort_recent, "t":"last /r/$rname post"},
 		"freq":{"func":sort_freq, "t":"/r/$rname post frequency"}}
+
+	field = undefined;
+	descending = true;
+	if ("showall" in get_vars) { document.getElementById("show_all").checked = true; }
+	if ("text" in get_vars) { document.getElementById("newflair").value = get_vars.text; }
+	if ("sort" in get_vars) { field = get_vars.sort }
+	if ("reverse" in get_vars) { descending = false }
+	if ("text" in get_vars || "showall" in get_vars) { go(field, descending); }
 }
