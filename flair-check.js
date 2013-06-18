@@ -67,6 +67,8 @@ function sort_and_show(f, d) {
 	d = typeof d !== "undefined" ? d : true;
 	r.sort(fields[f].func);
 	if (d) { r.reverse(); }
+	field = f;	//store in the global
+	descending = d;
 
 	rname = document.getElementById("rname").value;
 
@@ -98,7 +100,7 @@ function sort_and_show(f, d) {
 	out.innerHTML = s;
 }
 
-function go(field, descending) {
+function go() {
 	var newflair = document.getElementById("newflair").value;
 	var show_all = document.getElementById("show_all");
 	rname = document.getElementById("rname").value;
@@ -170,11 +172,11 @@ function onload() {
 		"recent":{"func":sort_recent, "t":"last /r/$rname post"},
 		"freq":{"func":sort_freq, "t":"/r/$rname post frequency"}}
 
-	field = undefined;
-	descending = true;
+	field = undefined;	//global
+	descending = true;	//global
 	if ("showall" in get_vars) { document.getElementById("show_all").checked = true; }
 	if ("text" in get_vars) { document.getElementById("newflair").value = get_vars.text; }
 	if ("sort" in get_vars) { field = get_vars.sort }
 	if ("reverse" in get_vars) { descending = false }
-	if ("text" in get_vars || "showall" in get_vars) { go(field, descending); }
+	if ("text" in get_vars || "showall" in get_vars) { go(); }
 }
