@@ -89,6 +89,8 @@ function sort_and_show(f, d) {
 	  		s += "<td style='background:#99f'>none in last 100 comments</td><td style='background:#99f'>less than once per " + timeago(r[x].freq);
 		} else if (r[x].num_posts === -1) {
 			s += "<td style='background:#ee0'>account deactivated</td><td style='background:#ee0'>";
+		} else if (r[x].num_posts === -2) {
+			s += "<td style='background:#99f'>user has no comments</td><td style='background:#ee0'>";
 		} else {
 	  		s += "<td style='background:#" + get_color(elapsed(r[x].last_post) / 7776000, 0.6) + "'>" + nowago(r[x].last_post) + " ago</td><td style='background:#" + get_color(r[x].freq / 5184000, 0.5) + "'>once every " + timeago(r[x].freq) /*+ " (over the last " + nowago(r[x].first_post) + ")"*/;
 		}
@@ -114,7 +116,7 @@ function go() {
 	for (var x in flairs[rname]) {
 		var d = dice_coefficient(flairs[rname][x]["text"], newflair);
 		if (show_all.checked || d !== 0) {
-			if (flairs[rname][x]["num_posts"] === -1) {
+			if (flairs[rname][x]["num_posts"] < 0) {	//negative counts are error codes from flairgrabber
 				freq = Infinity;
 				flairs[rname][x]["last_post"] = 0;
 			} else if (flairs[rname][x]["num_posts"] === 0) {
