@@ -6,6 +6,7 @@
 	<body onload="onload()">
 		<h3>Subreddit flair tracker</h3>
 		<p>This tool automatically keeps track of userflair on certain subreddits and provides a mechanism to check whether a specified flair string is already in use. It is intended to assist moderators who wish to ensure that all userflair is unique. Potential collisions are ranked by <a href="http://en.wikipedia.org/wiki/S&oslash;rensen&ndash;Dice_coefficient">S&oslash;rensen&ndash;Dice coefficient</a>.</p>
+		<p>Moderators: Do you want more subreddits to be included? Do you want to see additional metrics? <a href="http://reddit.com/message/compose/?to=listen2">Let me know!</a></p>
 		<select id="rname"></select>
 		<input type="text" id="newflair" onkeyup="javascript:if(event.keyCode==13){go();document.getElementById('newflair').blur()}">
 		<input type="button" onclick="go()" value="check">
